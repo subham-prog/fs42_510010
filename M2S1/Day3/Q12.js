@@ -15,9 +15,11 @@ const people = [
     }
   ];
   
-  const result = people.map(({ name, address: { city, street: { name: streetName } } }) =>
-    `${name} lives in ${city} on ${streetName}`
-  );
+  const result = [];
+  
+  people.forEach(({ name, address: { city, street: { name: streetName } } }) => {
+    result.push(`${name} lives in ${city} on ${streetName}`);
+  });
   
   console.log(result);
   
