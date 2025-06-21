@@ -6,4 +6,4 @@ function changeAge(){
   return (age + 1);
 }
 console.log(displayAge())
-console.log(changeAge())
+console.log(changeAge()) 
