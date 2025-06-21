@@ -1,6 +1,22 @@
 const users = [
-    { id: 123, profile: { name: "John Doe", address: { city: "Los Angeles", zipcode: "90001" } } },
-    { id: 123, profile: { name: "John Doe"}}
+    { id: 123,
+      profile: 
+      { 
+        name: "John Doe",
+        address: 
+        { 
+            city: "Los Angeles", 
+            zipcode: "90001"
+        } 
+       } 
+    
+    },
+    { id: 123, 
+      profile: 
+      { 
+        name: "John Doe"
+      }
+    }
 ];
 
 users.forEach(user => {
