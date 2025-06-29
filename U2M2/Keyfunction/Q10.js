@@ -6,4 +6,4 @@ let car = {
 };
 
 let getCarBrand = car.getBrand.bind(car);
-console.log(getCarBrand()); // Output: Toyota
+console.log(getCarBrand());
