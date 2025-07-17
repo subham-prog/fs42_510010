@@ -15,3 +15,8 @@ function filternumber(arr){
   sortAndConcat([10, 12, 1, 2, 3, 4, 9], [2, 4, 5, 6, 8, 9, 10])
   filternumber([10, 12, 1, 2, 3, 4, 9])
   sumOfArray([10, 12, 1, 2, 3, 4, 9])
+
+  for (let i = 0; i < matrix.length; i++) {
+  matrix[i].reverse();
+}
+
