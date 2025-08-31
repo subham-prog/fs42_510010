@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Event Propagation Demo</title>
+  <style>
+    .box {
+      border: 2px solid black;
+      padding: 20px;
+      margin: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="outer" class="box">
+    Outer Div
+    <button id="btnOuter">Outer Button</button>
+
+    <div id="middle" class="box">
+      Middle Div
+      <button id="btnMiddle">Middle Button</button>
+
+      <div id="inner" class="box">
+        Inner Div
+        <button id="btnInner">Inner Button</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="./Q13.js"></script>
+</body>
+</html>
