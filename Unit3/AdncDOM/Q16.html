@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Todo & Products Dashboard</title>
+  <style>
+    body {
+      font-family: Arial;
+      margin: 20px;
+    }
+
+    h2 {
+      margin-top: 40px;
+    }
+
+    .task {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 5px 0;
+    }
+
+    .completed {
+      text-decoration: line-through;
+      color: gray;
+    }
+
+    .task-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .product {
+      padding: 10px;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+
+    .in-stock {
+      background-color: lightgreen;
+    }
+
+    .out-of-stock {
+      background-color: lightcoral;
+    }
+
+    .counters span {
+      margin-right: 15px;
+      font-weight: bold;
+    }
+
+    .filters button {
+      margin-right: 10px;
+    }
+
+    .nested {
+      padding: 20px;
+      border: 2px solid black;
+    }
+
+    .nested button {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TODO LIST -->
+  <h2>1. Task Manager</h2>
+  <input id="taskInput" type="text" placeholder="Enter a task">
+  <button id="addTask">Add Task</button>
+  <button id="sortTasks">Sort A-Z</button>
+
+  <div class="filters">
+    <button data-filter="all">All Tasks</button>
+    <button data-filter="completed">Completed Tasks</button>
+    <button data-filter="incomplete">Incomplete Tasks</button>
+  </div>
+
+  <div class="counters">
+    <span id="totalCount">Total: 0</span>
+    <span id="completedCount">Completed: 0</span>
+    <span id="incompleteCount">Incomplete: 0</span>
+  </div>
+
+  <ul id="taskList"></ul>
+
+  <!-- PRODUCT GRID -->
+  <h2>2. Product Grid with Conditional Styling</h2>
+  <div id="productGrid" class="task-grid"></div>
+
+  <!-- EVENT PROPAGATION -->
+  <h2>3. Event Propagation</h2>
+  <div id="outer" class="nested" style="background: lightblue;">
+    Outer Div
+    <div id="middle" class="nested" style="background: lightyellow;">
+      Middle Div
+      <div id="inner" class="nested" style="background: lightgreen;">
+        Inner Div
+        <button id="innerButton">Click Me</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+  // Task Data
+  let tasks = [];
+  let currentFilter = "all";
+
+  // Elements
+  const taskInput = document.getElementById('taskInput');
+  const taskList = document.getElementById('taskList');
+  const totalCount = document.getElementById('totalCount');
+  const completedCount = document.getElementById('completedCount');
+  const incompleteCount = document.getElementById('incompleteCount');
+
+  // Add Task
+  document.getElementById('addTask').addEventListener('click', () => {
+    const value = taskInput.value.trim();
+    if (value) {
+      tasks.push({ text: value, completed: false });
+      taskInput.value = '';
+      renderTasks();
+    }
+  });
+
+  // Sort Tasks A-Z
+  document.getElementById('sortTasks').addEventListener('click', () => {
+    tasks.sort((a, b) => a.text.localeCompare(b.text));
+    renderTasks();
+  });
+
+  // Event Delegation for Delete + Toggle
+  taskList.addEventListener('click', (e) => {
+    const li = e.target.closest('li');
+    const index = li?.dataset?.index;
+    if (e.target.matches('button')) {
+      tasks.splice(index, 1);
+    } else if (e.target.matches('input[type="checkbox"]')) {
+      tasks[index].completed = e.target.checked;
+    }
+    renderTasks();
+  });
+
+  // Filters
+  document.querySelectorAll('.filters button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      currentFilter = btn.dataset.filter;
+      renderTasks();
+    });
+  });
+
+  function renderTasks() {
+    taskList.innerHTML = '';
+    let filtered = tasks;
+
+    if (currentFilter === 'completed') {
+      filtered = tasks.filter(t => t.completed);
+    } else if (currentFilter === 'incomplete') {
+      filtered = tasks.filter(t => !t.completed);
+    }
+
+    filtered.forEach((task, i) => {
+      const li = document.createElement('li');
+      li.className = 'task';
+      li.dataset.index = i;
+
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.checked = task.completed;
+
+      const span = document.createElement('span');
+      span.textContent = task.text;
+      if (task.completed) span.classList.add('completed');
+
+      const delBtn = document.createElement('button');
+      delBtn.textContent = 'Delete';
+
+      li.appendChild(checkbox);
+      li.appendChild(span);
+      li.appendChild(delBtn);
+
+      taskList.appendChild(li);
+    });
+
+    // Update counters
+    totalCount.textContent = `Total: ${tasks.length}`;
+    completedCount.textContent = `Completed: ${tasks.filter(t => t.completed).length}`;
+    incompleteCount.textContent = `Incomplete: ${tasks.filter(t => !t.completed).length}`;
+  }
+
+  // Product Grid
+  const products = [
+    { id: 1, name: "Product A", price: 50, inStock: true },
+    { id: 2, name: "Product B", price: 30, inStock: false },
+    { id: 3, name: "Product C", price: 70, inStock: true },
+    { id: 4, name: "Product D", price: 20, inStock: false }
+  ];
+
+  const productGrid = document.getElementById('productGrid');
+
+  products.forEach(prod => {
+    const div = document.createElement('div');
+    div.className = `product ${prod.inStock ? 'in-stock' : 'out-of-stock'}`;
+    div.innerHTML = `<h4>${prod.name}</h4>
+                     <p>Price: $${prod.price}</p>
+                     <p>${prod.inStock ? "In Stock" : "Out of Stock"}</p>`;
+    productGrid.appendChild(div);
+  });
+
+  // Event Propagation
+  const outer = document.getElementById('outer');
+  const middle = document.getElementById('middle');
+  const inner = document.getElementById('inner');
+  const innerButton = document.getElementById('innerButton');
+
+  outer.addEventListener('click', () => alert('Outer DIV clicked (Bubbling)'), false);
+  middle.addEventListener('click', () => alert('Middle DIV clicked (Bubbling)'), false);
+  inner.addEventListener('click', () => alert('Inner DIV clicked (Bubbling)'), false);
+
+  outer.addEventListener('click', () => console.log('Outer (Capturing)'), true);
+  middle.addEventListener('click', () => console.log('Middle (Capturing)'), true);
+  inner.addEventListener('click', () => console.log('Inner (Capturing)'), true);
+
+  innerButton.addEventListener('click', (e) => {
+    e.stopPropagation(); // Prevent bubbling or capturing to parent
+    alert('Inner Button clicked — Propagation stopped');
+  });
+</script>
+
+</body>
+</html>
