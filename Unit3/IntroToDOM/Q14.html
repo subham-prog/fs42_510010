@@ -1,0 +1,39 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Debugging Task</title>
+</head>
+<body>
+  <p id="message">Original Message</p> <!-- Fixed id from 'massage' to 'message' -->
+  <button id="textButton">Change Text</button>
+  <br /><br />
+  <div id="box" style="width: 100px; height: 100px; background-color: lightgray;"></div>
+  <button id="colorButton">Change Background</button>
+
+  <script>
+    // Fixed typo in querySelector id from '#massage' to '#message'
+    const para = document.querySelector('#message');
+
+    // Changed from getElementByName to getElementById to correctly select element by id
+    const textButton = document.getElementById('textButton');
+
+    // Fixed method name from addClickEventListener to addEventListener
+    textButton.addEventListener('click', () => {
+      // Fixed property from contentText to textContent to change text content
+      para.textContent = 'New Message';
+    });
+
+    const box = document.getElementById('box');
+    const colorButton = document.getElementById('colorButton');
+
+    colorButton.addEventListener('click', () => {
+      // Fixed typo in 'style' property name (was 'styl')
+      box.style.backgroundColor = 'blue';
+    });
+  </script>
+</body>
+</html>
