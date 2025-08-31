@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>DOM Manipulation</title>
+</head>
+<body>
+  <ul>
+    <li>Item 1</li>
+    <li>Item 2</li>
+    <li>Item 3</li>
+  </ul>
+  <button>Add Item</button>
+
+  <script>
+    const ul = document.querySelector('ul');
+    const button = document.querySelector('button');
+
+    button.addEventListener('click', () => {
+      const newLi = document.createElement('li');
+      const totalItems = ul.children.length + 1;
+      newLi.textContent = 'New Item';
+
+      if (totalItems % 2 === 1) {
+        newLi.style.fontWeight = 'bold';
+        newLi.style.color = 'blue';
+      } else {
+        newLi.style.fontStyle = 'italic';
+        newLi.style.color = 'red';
+      }
+
+      ul.appendChild(newLi);
+    });
+  </script>
+</body>
+</html>
