@@ -15,18 +15,20 @@
     This is the container div.
   </div>
 
-</body>
-</html>
-
   <script>
     let h1 = document.getElementById('main-title');
     h1.textContent = "Welcome to the DOM World!";
 
     let paragraphs = document.getElementsByTagName('p');
-    for (let p of paragraphs) {
-      p.style.color = 'blue';
+    for (let i = 0; i < paragraphs.length; i++) {
+      paragraphs[i].style.color = 'blue';
     }
-
+    
     let containerDiv = document.querySelector('div.container');
     containerDiv.style.backgroundColor = 'yellow';
   </script>
+
+</body>
+</html>
+
+  
