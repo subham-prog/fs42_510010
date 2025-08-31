@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Change Background & Update Text</title>
+</head>
+<body>
+
+  <input id="colorInput" type="text" placeholder="Enter a color name" />
+  <input id="textInput" type="text" placeholder="Enter text content" />
+  
+  <button id="changeBgBtn">Change Background</button>
+  <button id="updateTextBtn">Update Text</button>
+  
+  <div id="contentDiv" style="margin-top: 20px; padding: 10px; border: 1px solid #000;">
+    This is the initial text content.
+  </div>
+
+  <script>
+    const colorInput = document.getElementById('colorInput');
+    const textInput = document.getElementById('textInput');
+    const changeBgBtn = document.getElementById('changeBgBtn');
+    const updateTextBtn = document.getElementById('updateTextBtn');
+    const contentDiv = document.getElementById('contentDiv');
+
+    // Function to check if a color string is valid
+    function isValidColor(strColor) {
+      const s = new Option().style;
+      s.color = strColor;
+      return s.color !== '';
+    }
+
+    changeBgBtn.addEventListener('click', () => {
+      const color = colorInput.value.trim();
+      if (isValidColor(color)) {
+        contentDiv.style.backgroundColor = color;
+      } else {
+        alert('Invalid color name!');
+      }
+    });
+
+    updateTextBtn.addEventListener('click', () => {
+      const text = textInput.value.trim();
+      if (text.length === 0) {
+        alert('Please enter some text!');
+      } else {
+        contentDiv.textContent = text;
+      }
+    });
+  </script>
+
+</body>
+</html>
