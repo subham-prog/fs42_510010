@@ -1,0 +1,80 @@
+<form id="preferencesForm">
+  <label for="theme">Theme:</label>
+  <select id="theme">
+    <option value="light">Light</option>
+    <option value="dark">Dark</option>
+  </select>
+
+  <label for="language">Language:</label>
+  <select id="language">
+    <option value="en">English</option>
+    <option value="es">Spanish</option>
+  </select>
+
+  <label for="notifications">Notifications:</label>
+  <input type="checkbox" id="notifications">
+
+  <button type="submit">Save Preferences</button>
+</form>
+
+<script>
+  const form = document.getElementById('preferencesForm');
+  const themeSelect = document.getElementById('theme');
+  const languageSelect = document.getElementById('language');
+  const notificationsCheckbox = document.getElementById('notifications');
+
+  // Function to apply the theme dynamically to the document body
+  function applyTheme(theme) {
+    document.body.classList.remove('light', 'dark'); // Remove existing theme classes
+    document.body.classList.add(theme); // Add new theme class
+  }
+
+  // Load preferences on page load and apply them to the UI
+  window.onload = () => {
+    const storedPreferences = localStorage.getItem('preferences');
+    if (storedPreferences) {
+      const preferences = JSON.parse(storedPreferences);
+      themeSelect.value = preferences.theme;
+      languageSelect.value = preferences.language;
+      notificationsCheckbox.checked = preferences.notifications;
+      
+      // Apply the stored theme
+      applyTheme(preferences.theme);
+    } else {
+      // If no preferences saved, apply default theme
+      applyTheme(themeSelect.value);
+    }
+  };
+
+  // Save preferences and apply theme dynamically on form submit
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const preferences = {
+      theme: themeSelect.value,
+      language: languageSelect.value,
+      notifications: notificationsCheckbox.checked
+    };
+
+    // Save preferences to localStorage
+    localStorage.setItem('preferences', JSON.stringify(preferences));
+
+    // Apply the theme dynamically
+    applyTheme(preferences.theme);
+
+    alert('Preferences Saved!');
+  });
+</script>
+
+<style>
+  /* Basic theme styles */
+  body.light {
+    background-color: white;
+    color: black;
+  }
+
+  body.dark {
+    background-color: #222;
+    color: white;
+  }
+</style>

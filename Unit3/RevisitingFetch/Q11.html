@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fetch Users</title>
+</head>
+<body>
+  <h1>User List</h1>
+  <ul id="userList"></ul>
+
+  <script>
+    // URL to fetch users from JSONPlaceholder API
+    const apiURL = "https://jsonplaceholder.typicode.com/users";
+
+    // Select the ul element where user names will be displayed
+    const userList = document.getElementById("userList");
+
+    // Function to fetch user data and display it
+    async function fetchUsers() {
+      try {
+        // Fetch user data using GET request
+        const response = await fetch(apiURL);
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const users = await response.json();
+
+        // Loop through users and create a list item for each
+        users.forEach(user => {
+          const li = document.createElement("li");
+          // Make the user name clickable
+          li.textContent = user.name;
+          li.style.cursor = "pointer";
+
+          // Add click event to alert the user's email
+          li.addEventListener("click", () => {
+            alert(`Email: ${user.email}`);
+          });
+
+          // Append the list item to the ul
+          userList.appendChild(li);
+        });
+      } catch (error) {
+        console.error("Failed to fetch users:", error);
+      }
+    }
+
+    // Call the function to fetch and display users
+    fetchUsers();
+  </script>
+</body>
+</html>
